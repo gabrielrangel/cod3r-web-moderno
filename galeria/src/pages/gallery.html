@@ -1,0 +1,27 @@
+<template id="template-album-header">
+    <div class="p5">
+        <div class="container py-5">
+            <h1 class="display-5 fw-bold">
+                <slot name="gallery-title">Nome da Galeria</slot>
+            </h1>
+            <p class="col-md-8"><slot name="gallery-description">Descrição da Galeria</slot></p>
+        </div>
+    </div>
+</template>
+
+<template id="template-album">
+    <div class="bg-light py-5">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2 g-4" id="album">
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="template-card">
+    <div class="col">
+        <div class="card">
+            <img src="..." class="card-img-top" alt="...">
+        </div>
+    </div>
+</template>

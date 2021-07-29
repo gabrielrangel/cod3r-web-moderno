@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const {ProvidePlugin} = require('webpack')
 const path = require('path');
 
 module.exports = {
@@ -11,7 +13,17 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({template:'./src/index.html'}),
-        new MiniCssExtractPlugin({filename: 'style.css'})
+        new MiniCssExtractPlugin({filename: 'style.css'}),
+        new CopyWebpackPlugin({
+            patterns: [
+                { context: 'src', from: 'pages/*.html'},
+                { context: 'src', from: 'img/*.*'}
+            ]
+        }),
+        new ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+        })
     ],
     module:{
         rules:[
