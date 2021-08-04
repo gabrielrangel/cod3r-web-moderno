@@ -1,22 +1,34 @@
+function showAll(cards){
+    $('.nav .active').removeClass('active')
+    cards.forEach(card => card.removeClass('d-none'))
+}
+
 function filter(e, cards, cardsData) {
     const target = $(e.target)
+    const navItem = $(target.parents('.nav-item'))
     const targetValue = target.text()
-    const key = target.parents('dropdownButton').find('[name="dropdown-title"]').text()
+    const key = navItem.find('[name="dropdown-title"]').text()
 
-    $('.card').removeClass('d-none')
+    showAll(cards)
+
+    console.log(target)
+
+    target.addClass('active')
+    navItem.find('button').addClass('active')
+
 
     const filteredImages = cardsData.reduce((arr, cur, ind) => {
         return cur[key] && cur[key]!==targetValue ? [...arr, ind] : arr
     },[])
 
     filteredImages.forEach(index => $(cards[index]).addClass('d-none'))
-
-    console.log(cards)
 }
 
 export function gallery({templates: {cardTemplate, dropdownButtonTemplate, dropdownOptionTemplate}, images}) {
     const gallery = $('#gallery')
     const filterGroup = $('#filter')
+
+    $('#show-all').on('click', () => showAll(cards))
 
     images.forEach((img) => {
         const card = $(cardTemplate)
@@ -27,7 +39,7 @@ export function gallery({templates: {cardTemplate, dropdownButtonTemplate, dropd
         gallery.append(card)
     })
 
-    const cards = $.map($('.card'), card => card)
+    const cards = $.map($('.card'), card => $(card).parent())
     const cardsData = cards.map(card => $(card).find('img').data().data)
 
     const filterOptions = cardsData.reduce((acc, data) => {
@@ -55,6 +67,6 @@ export function gallery({templates: {cardTemplate, dropdownButtonTemplate, dropd
             dropdown.find('ul').append(dropdownOption)
         })
 
-        filterGroup.append(dropdown)
+        filterGroup.prepend(dropdown)
     })
 }

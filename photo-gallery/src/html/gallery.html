@@ -1,9 +1,9 @@
 <albumHeader></albumHeader>
 
-<div class="bg-light py-5 container-fluid">
-    <div class="container">
+<div class="bg-light container-fluid">
+    <div class="container row gy-0  py-5">
         <filterGroup></filterGroup>
-        <div class="row row-cols-1 row-cols-md-2 g-4" id="gallery"></div>
+        <div class="row row-cols-1 row-cols-md-2 gy-4" id="gallery"></div>
     </div>
 </div>
 
@@ -23,30 +23,31 @@
 <template id="card-template">
     <div class="col col-md-6 col-xl-4">
         <div class="card">
-            <img alt="..." class="card-img-top" src="...">
+            <img alt="..." class="card-img-top" src="#">
         </div>
     </div>
 </template>
 
 <template id="filter-group-template">
-    <div aria-label="Button group with nested dropdown" class="btn-group" role="group">
-        <div class="btn-group d-flex pb-5" id="filter" role="group"></div>
-    </div>
+    <ul class="nav nav-pills justify-content-center" id="filter">
+        <li class="nav-item">
+            <button type="button" class="nav-link link-danger" id="show-all">Limpar Filtros</button>
+        </li>
+    </ul>
+
 </template>
 
 <template id="dropdown-button-template">
-    <dropdownButton>
+    <li class="nav-item">
         <button
             aria-expanded="false"
-            class="btn btn-primary dropdown-toggle"
+            class="nav-link dropdown-toggle link-secondary"
             data-bs-toggle="dropdown"
             type="button">
             <slot name="dropdown-title">Dropdown</slot>
         </button>
-
-        <ul class="dropdown-menu">
-        </ul>
-    </dropdownButton>
+        <ul class="dropdown-menu"></ul>
+    </li>
 </template>
 
 <template id="dropdown-option-template">
