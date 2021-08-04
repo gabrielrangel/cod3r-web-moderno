@@ -16,7 +16,7 @@ module.exports = {
         new MiniCssExtractPlugin({filename: 'style.css'}),
         new CopyWebpackPlugin({
             patterns: [
-                { context: 'src', from: 'pages/*.html'},
+                { context: 'src', from: 'html/*.html'},
                 { context: 'src', from: 'img/*.*'}
             ]
         }),

@@ -1,0 +1,54 @@
+<albumHeader></albumHeader>
+
+<div class="bg-light py-5 container-fluid">
+    <div class="container">
+        <filterGroup></filterGroup>
+        <div class="row row-cols-1 row-cols-md-2 g-4" id="gallery"></div>
+    </div>
+</div>
+
+<template id="album-header-template">
+    <div class="p5">
+        <div class="container py-5 bg-white">
+            <h1 class="display-5 fw-bold">
+                <slot name="gallery-title">Nome da Galeria</slot>
+            </h1>
+            <p class="col-md-8">
+                <slot name="gallery-description">Descrição da Galeria</slot>
+            </p>
+        </div>
+    </div>
+</template>
+
+<template id="card-template">
+    <div class="col col-md-6 col-xl-4">
+        <div class="card">
+            <img alt="..." class="card-img-top" src="...">
+        </div>
+    </div>
+</template>
+
+<template id="filter-group-template">
+    <div aria-label="Button group with nested dropdown" class="btn-group" role="group">
+        <div class="btn-group d-flex pb-5" id="filter" role="group"></div>
+    </div>
+</template>
+
+<template id="dropdown-button-template">
+    <dropdownButton>
+        <button
+            aria-expanded="false"
+            class="btn btn-primary dropdown-toggle"
+            data-bs-toggle="dropdown"
+            type="button">
+            <slot name="dropdown-title">Dropdown</slot>
+        </button>
+
+        <ul class="dropdown-menu">
+        </ul>
+    </dropdownButton>
+</template>
+
+<template id="dropdown-option-template">
+    <li><button class="dropdown-item"><slot name="dropdown-option">Dropdown link</slot></button></li>
+</template>
