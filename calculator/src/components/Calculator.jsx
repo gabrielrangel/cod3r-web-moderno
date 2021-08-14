@@ -1,132 +1,65 @@
-import styled from "styled-components";
 import {useState} from "react";
+import styled from "styled-components";
 
-const keyboardOptions = ['C', '½', '%']
-const operations = ['÷', '×', '−', '+', '=']
+import {Display} from "./Display";
+import {Button} from "./Button";
+
+const buttonList = [
+    {children: 'C', span: 3}, {children: '÷', value: '/', operator: true},
+    {children: '7'}, {children: '8'}, {children: '9'}, {children: '×', value: '*', operator: true},
+    {children: '4'}, {children: '5'}, {children: '6'}, {children: '-', operator: true},
+    {children: '1'}, {children: '2'}, {children: '3'}, {children: '+', operator: true},
+    {children: '0', span: 2}, {children: '.'}, {children: '=', operator: true}
+]
 
 const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-content: stretch;
-  
-  outline: solid 1px rgb(28, 28, 28);
-  border: solid 1px rgba(255, 255, 255, .1);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 80px 1fr 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background-color: rgb(79, 79, 80);
+  border: solid 1px rgb(125, 125, 126);
   border-radius: 8px;
-  
-  background-color: #26272F;
-  
   overflow: hidden;
-  
-  width: 265px;
-  min-width: 265px;
-  min-height: 360px;
+
+  min-width: 260px;
+  min-height: 380px;
+
   resize: both;
-  
-   * {
-    gap: 1px;
+
+  * {
+    color: white;
+    font-size: 24px;
+    font-family: 'Roboto Mono', monospace;
   }
 `
 
-const Display = styled.output`
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  
-  width: 100%;
-  padding: 10px;
-  
-  background-color: #26272F;
-  
-  color: white;
-  font-size: 36px;
-  font-family: 'Open Sans', sans-serif;
-`
+export function Calculator() {
+    const [memory, setMemory] = useState('0')
 
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: ${props => props.nogrow ? 0 : 1};
-  
-  min-width: 50px;
-  
-  padding: 5px;
-  border: none;
-  
-  color: white;
-  font-size: 24px;
-  font-family: 'Roboto Mono', monospace;
-  
-  background-color: ${props => {
-    return (
-        props.operations ?
-            'rgb(255, 157, 0)' : 
-        props.option ? 
-            'rgb(98,101,101)' : 
-        'rgb(124, 126, 126)'
-    )
-  }};
-  
-  :active{
-    background-color: ${props => {
-      return (
-          props.operations ? 
-              'rgb(213, 124, 0)' : 
-          props.option ? 
-              'rgb(124,126,126)' : 
-          'rgb(177, 178, 178)'
-      )}};
-  }
-`
+    const getExpression = () => /.*\d/.exec(memory).pop()
 
-const Keyboard = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 75%;
-  justify-content: flex-end;
-  
-  button {
-    min-width: 33%;
-    max-width: 67%;
-    
-  }
-`
+    const getResult = () => String(eval(getExpression()))
 
-const Operations = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 25%;
-`
+    const lastNumberInMemory = () => /\d\.?\d*$/.exec(memory) || /\d\.?\d*(?=[+-/*]$)/.exec(memory)
 
-export function Calculator () {
-    const [result, setResult] = useState('0');
+    const handleClickButton = (value) => {
+        let newMemory = memory === '0' ? '' : memory
+        newMemory = /[*+\-=\/]/.exec(value) ? getExpression() : newMemory
+        newMemory = `${newMemory}${value}`
+        newMemory = value === 'C' ? '0' : newMemory
+        newMemory = value === '=' ? getResult() : newMemory
+        setMemory(newMemory)
+    }
+
     return (
         <Container>
-            <Display>{result}</Display>
-            <Keyboard>
-                {[
-                    keyboardOptions.map(option => {
-                        return (
-                            <Button
-                                option
-                                value={option}
-                            >
-                                {option}
-                            </Button>)
-                    }),
-                    ...Array.from(Array(10),(_,i)=> {
-                        return (
-                            <Button
-                                value={i}
-                                onClick={(e)=>setResult(`${result === '0' ? '' : result}${e.target.value}`)}
-                            >{i}</Button>)
-                    }).reverse(),
-                    <Button nogrow value={','}>{','}</Button>
-                ]}
-            </Keyboard>
-            <Operations>
-                {operations.map(operation => <Button operations value={operation} >{operation}</Button>)}
-            </Operations>
+            <Display>{lastNumberInMemory()}</Display>
+            {buttonList.map((props, key) =>
+                <Button
+                    onClick={(e) => handleClickButton(e.target.value)}
+                    key={key}
+                    {...props}/>)}
         </Container>
     )
 }
