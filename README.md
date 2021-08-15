@@ -31,3 +31,4 @@ https://www.cod3r.com.br/courses/web-moderno
 ## Lessons Learned
 
 - [Photo Gallery](https://github.com/gabrielrangel/cod3r-web-moderno/tree/main/photo-gallery)
+- [Calculator](https://github.com/gabrielrangel/cod3r-web-moderno/blob/main/calculator/)
