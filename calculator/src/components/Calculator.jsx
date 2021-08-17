@@ -31,6 +31,10 @@ const Container = styled.div`
     color: white;
     font-size: 24px;
     font-family: 'Roboto Mono', monospace;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
   }
 `
 
@@ -41,7 +45,7 @@ export function Calculator() {
 
     const getResult = () => String(eval(getExpression()))
 
-    const lastNumberInMemory = () => /\d\.?\d*$/.exec(memory) || /\d\.?\d*(?=[+-/*]$)/.exec(memory)
+    const lastNumberInMemory = () => /-?\d+\.?\d*$/.exec(memory) || /\d\.?\d*(?=[+-/*]$)/.exec(memory)
 
     const handleClickButton = (value) => {
         let newMemory = memory === '0' ? '' : memory
